@@ -13,7 +13,6 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-
 public class FinanceFormPage {
     WebDriver driver;
 
