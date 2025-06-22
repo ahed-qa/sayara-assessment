@@ -1,5 +1,4 @@
 package tests;
-import org.openqa.selenium.WebDriver;
 import base.BaseTest;
 import com.aventstack.extentreports.ExtentTest;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,6 +22,8 @@ public class CarSearchTest extends BaseTest {
 
         home.waitTillToyotaBrandVisible();
         home.clickToyotaBrand(); // to navigate to toyota page // still there's an issue on this method
+        String path = ExtentReportManager.captureScreenshot(driver, "filterSelection");
+        test.addScreenCaptureFromPath(path);
 
         FilterPage filter = new FilterPage(driver);
         filter.waitForPageLoad(driver);

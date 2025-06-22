@@ -26,6 +26,9 @@ public class FinanceFormTest extends BaseTest {
         financeForm.firstRadioButton();
        waitForPageToLoad(driver, 10);
         financeForm.firstRadioButton();
+        String path = ExtentReportManager.captureScreenshot(driver, "firstRadioButton");
+        test.addScreenCaptureFromPath(path);
+
         financeForm.fillTotalMonthlyIncomeField(1400);
         financeForm.continueButton();
         financeForm.firstRadioButton();
