@@ -1,7 +1,11 @@
 package utils;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+
+import com.aventstack.extentreports.*;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,40 +14,40 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.aventstack.extentreports.*;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-
 public class ExtentReportManager {
+
     private static ExtentReports extent;
-    private static ExtentTest test;
+    private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
     public static void startReport() {
-        ExtentSparkReporter spark = new ExtentSparkReporter("test-output/ExtentReport.html");
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
+        if (extent == null) {
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            ExtentSparkReporter spark = new ExtentSparkReporter("test-output/ExtentReport_" + timestamp + ".html");
+            extent = new ExtentReports();
+            extent.attachReporter(spark);
+        }
     }
 
     public static ExtentTest createTest(String name) {
-        if (extent == null) {
-            startReport(); // Initialize if not already done
-        }
-        test = extent.createTest(name);
-        return test;
+        startReport(); // Safe to call multiple times
+        ExtentTest extentTest = extent.createTest(name);
+        test.set(extentTest);
+        return extentTest;
     }
 
     public static ExtentTest getTest() {
-        return test;
+        return test.get();
     }
 
     public static void logPass(String message) {
-        if (test != null) {
-            test.pass(message);
+        if (getTest() != null) {
+            getTest().pass(message);
         }
     }
 
     public static void logFail(String message) {
-        if (test != null) {
-            test.fail(message);
+        if (getTest() != null) {
+            getTest().fail(message);
         }
     }
 
@@ -53,23 +57,17 @@ public class ExtentReportManager {
         }
     }
 
-
-
-
-
     public static String captureScreenshot(WebDriver driver, String screenshotName) {
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String path = "test-output/screenshots/" + screenshotName + ".png";
 
         try {
             Files.createDirectories(Paths.get("test-output/screenshots"));
-            File dest = new File(path);
-            Files.copy(src.toPath(), dest.toPath());
+            Files.copy(src.toPath(), Paths.get(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return path;
     }
-
 }

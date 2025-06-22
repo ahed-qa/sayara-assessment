@@ -2,6 +2,7 @@ package base;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,7 +28,9 @@ import java.time.Duration;
             WebDriverManager.chromedriver().setup(); //to set up the chrome driver
             driver = new ChromeDriver(); //opens new browser window before test means before each test case in the project since we have 2 different tests carSearchTest and FinancialFormTest
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            driver.manage().window().maximize();
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+            System.out.println(">>> @BeforeMethod is working");
+
         }
 
         @AfterMethod

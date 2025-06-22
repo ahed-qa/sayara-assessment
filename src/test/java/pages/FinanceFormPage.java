@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+
 import java.time.Duration;
-import java.util.List;
 
 
 public class FinanceFormPage {
@@ -44,6 +44,9 @@ public class FinanceFormPage {
 
     @FindBy(xpath = ("(//button[contains(@type,'submit')])"))
     WebElement startNowButton;
+
+    @FindBy(xpath = ("//h2[contains(text(),'You may not be eligible for financing')]"))
+    WebElement youMayNotBeEligibleForFinancingText;
 
 
     public void firstRadioButton() {
@@ -92,6 +95,13 @@ public void verifyNavigatingToTheCorrectURL(){
     Assert.assertEquals(driver.getCurrentUrl(), "https://preprod.syarah.com/en/site/finance-eligibility/disqualified");
 
 }
+
+    public void assertIneligibleForFinancingText() {
+        String expectedText = "You may not be eligible for financing";
+        String actualText = youMayNotBeEligibleForFinancingText.getText().trim();
+        Assert.assertEquals(actualText, expectedText, "The financing eligibility message does not match.");
+    }
+
 }
 
 

@@ -21,7 +21,7 @@ public class CarSearchTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         HomePage home = new HomePage(driver);
 
-        home.verifyToyotaBrand();
+        home.waitTillToyotaBrandVisible();
         home.clickToyotaBrand(); // to navigate to toyota page // still there's an issue on this method
 
         FilterPage filter = new FilterPage(driver);
@@ -29,18 +29,12 @@ public class CarSearchTest extends BaseTest {
 
         SearchResultsPage resultsPage = new SearchResultsPage(driver);
         filter.clickOnYearOfManufacture(driver);
-        filter.moveSliderToYear(2022);
+        filter.fillManufactorMinYear(2022);
+        filter.fillManufactorMaxYear(2025);
         filter.clickOnDoneOfFilteration();
         resultsPage.verifyFilterToyotaUrl(driver);
         Assert.assertTrue(resultsPage.toyotaTextInTheResult().contains("Toyota"));
         Assert.assertTrue(resultsPage.yearOfManufactureTextInTheResult().contains("2022"));
 
-
-
-
-
-
-//        Assert.assertTrue(home.areResultsFiltered(), "Filtered results not shown!");
-//        ExtentReportManager.logPass("Search filters applied and results displayed.");
     }
 }

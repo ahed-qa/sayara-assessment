@@ -22,50 +22,53 @@ public class FilterPage {
     @FindBy(xpath = "//div[contains(@class, 'SubFilterOpenButton-module__container')]//strong[contains(text(), 'سنة الصنع')]")
     WebElement YearOfManufactureButton;
 
-    @FindBy(xpath = "//div[contains(@class, 'rc-slider-handle')][1]")
-    WebElement sliderHandle;
-
     @FindBy(xpath = "//button[contains(@class, 'SubMenuContainer-module__DoneBtn')]")
     WebElement doneOfFilterationButton;
 
+    @FindBy(xpath = "//input[contains(@type, 'text') and contains(@name, 'min')]")
+    WebElement minManufacturerYear;
+
+    @FindBy(xpath = "//input[contains(@type, 'text') and contains(@name, 'max')]")
+    WebElement maxManufacturerYear;
+
+
 
     public void clickOnYearOfManufacture(WebDriver driver) {
+        driver.navigate().refresh();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait.until(ExpectedConditions.elementToBeClickable(YearOfManufactureButton));
         YearOfManufactureButton.click(); //this method wailts till year of manufacture button appears then click
     }
-/// //////////////
-    public void moveSliderToYear(int targetYear) {
-        int currentYear = 2025; // Update based on UI default
-        int yearRange = 2025 - 2022; // Range is 3 years
-        int sliderWidth = sliderHandle.getSize().getWidth(); // or estimate from total width
 
-        // Estimate pixels per year (assumes full width of bar represents full range)
-        int pixelsPerYear = 66; // You may need to tune this based on testing
+    public void fillManufactorMinYear(int year) {
 
-        int offset = (targetYear - currentYear) * pixelsPerYear;
-
-        Actions actions = new Actions(driver);
-        actions.clickAndHold(sliderHandle)
-                .moveByOffset(offset, 0)
-                .release()
-                .perform();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(minManufacturerYear));
+        minManufacturerYear.clear();
+        minManufacturerYear.sendKeys(String.valueOf(year));
     }
-    /// //////////////////////
+
+    public void fillManufactorMaxYear(int year) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(maxManufacturerYear));
+        maxManufacturerYear.clear();
+        maxManufacturerYear.sendKeys(String.valueOf(year));
+    }
+
 
     public void clickOnDoneOfFilteration() {
         doneOfFilterationButton.click();
     } //click on تم
 
 
-/// ///////////////
+
     public void waitForPageLoad(WebDriver driver) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(webDriver -> ((JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState").equals("complete"));
 
     }
-    /// /////////////////
+
 
 }
 
