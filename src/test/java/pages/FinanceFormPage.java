@@ -21,8 +21,6 @@ public class FinanceFormPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    @FindBy(xpath = ("(//input[contains(@type,'radio')])[1]"))
-    WebElement firstRadioButton;
 
     @FindBy(xpath = ("//input[contains(@type,'text')]"))
     WebElement totalMonthlyIncomeField;
@@ -80,7 +78,7 @@ public class FinanceFormPage {
         verifyNowButton.click();
     }
 
-    public void createAccountField(int income) {
+    public void createAccountField(String income) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(createAccountField));
         createAccountField.clear();
