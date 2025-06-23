@@ -37,6 +37,6 @@ public class CarSearchStory extends JUnitStories {
 
     @Override
     public List<String> storyPaths() {
-        return Arrays.asList("stories/car_search.story");
+        return Arrays.asList("src/test/resources/stories/car_search.story\n");
     }
 }

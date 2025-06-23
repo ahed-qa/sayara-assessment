@@ -4,6 +4,7 @@ import base.BaseTest;
 import com.aventstack.extentreports.ExtentTest;
 import org.testng.annotations.Test;
 import pages.FinanceFormPage;
+import utils.ConfigReader;
 import utils.ExtentReportManager;
 import utils.ElementUtils;
 
@@ -13,8 +14,7 @@ public class FinanceFormTest extends BaseTest {
     @Test
     public void testFinanceFormTests()  {
         ExtentTest test = ExtentReportManager.createTest("Finance Eligibility Form");
-        driver.get("https://preprod.syarah.com/en/site/finance-eligibility");
-
+        driver.get(ConfigReader.get("formUrl"));
         FinanceFormPage financeForm = new FinanceFormPage(driver);
 
         financeForm.firstRadioButton();

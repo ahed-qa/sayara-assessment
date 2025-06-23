@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import pages.FilterPage;
 import pages.HomePage;
 import pages.SearchResultsPage;
+import utils.ConfigReader;
 import utils.ExtentReportManager;
 
 import java.time.Duration;
@@ -16,7 +17,7 @@ public class CarSearchTest extends BaseTest {
     @Test
     public void testCarSearchWithFilters() throws InterruptedException {
         ExtentTest test = ExtentReportManager.createTest("Car Search - Toyota 2022 to 2025");
-        driver.get("https://preprod.syarah.com/");
+        driver.get(ConfigReader.get("baseUrl"));
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         HomePage home = new HomePage(driver);
 

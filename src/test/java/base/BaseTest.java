@@ -9,13 +9,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utils.DriverFactory;
 import utils.ExtentReportManager;
+
 
 import java.time.Duration;
 
 
     public class BaseTest {
         protected WebDriver driver; //protected to be used by child classes
+
+
+
 
         @BeforeSuite
         public void setUpSuite() {
@@ -26,7 +31,9 @@ import java.time.Duration;
         @BeforeMethod
         public void setup() {
             WebDriverManager.chromedriver().setup(); //to set up the chrome driver
-            driver = new ChromeDriver(); //opens new browser window before test means before each test case in the project since we have 2 different tests carSearchTest and FinancialFormTest
+            driver = new ChromeDriver();//opens new browser window before test means before each test case in the project since we have 2 different tests carSearchTest and FinancialFormTest
+            DriverFactory.setDriver(driver);
+
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             driver.manage().window().setSize(new Dimension(1920, 1080));
             System.out.println(">>> @BeforeMethod is working");
